@@ -1,19 +1,8 @@
-import os
-import gdown
 import streamlit as st
 import numpy as np
 from PIL import Image
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
-
-def download_model(file_id, output_path):
-    try:
-        if not os.path.exists(output_path):
-            url = f'https://drive.google.com/uc?id={file_id}'
-            gdown.download(url, output_path, quiet=True)
-    except Exception as e:
-        return f"Error downloading the model: {e}"
-    return None
 
 def preprocess_image(img, target_size):
     img = img.resize(target_size)
@@ -67,13 +56,7 @@ def show_upload_image(model):
                     "Probability": f"{malaria_probability:.2f}%"
                 })
 
-# Main script
-model_file_id = '17-dxaC04oO95hMExUC_IOoPO0RaRlfkF'  # Replace with your Google Drive file ID
-model_path = 'Nadam_TTS_Epoch50.h5'  # Path where the model will be saved
-
-download_error = download_model(model_file_id, model_path)
-if download_error:
-    st.error(download_error)
-else:
-    model = load_malaria_model(model_path)
-    show_upload_image(model)
+# Load the model and show upload image interface
+model_path = 'Nadam_TTS_Epoch50.h5'  # Path to your model file
+model = load_malaria_model(model_path)
+show_upload_image(model)
