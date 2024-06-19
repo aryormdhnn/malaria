@@ -1,7 +1,14 @@
-# authentication.py
 import streamlit as st
 
 def login():
+    # Periksa apakah pengguna sudah autentikasi
+    if "authenticated" not in st.session_state:
+        st.session_state["authenticated"] = False
+
+    if st.session_state["authenticated"]:
+        st.write("You are already logged in.")
+        return
+    
     st.markdown(
         """
         <style>
@@ -45,9 +52,9 @@ def login():
             background-color: #145a86;
         }
         </style>
-        """,
-        unsafe_allow_html=True
-    )
+       
+        """
+    , unsafe_allow_html=True)
 
     st.markdown("<h2>Login</h2>", unsafe_allow_html=True)
 
@@ -55,9 +62,10 @@ def login():
     password = st.text_input("", type="password", placeholder="Password")
 
     if st.button("Login"):
-        if username == "admin" and password == "password":
+        if username == "admin" and password == "admin":
             st.session_state["authenticated"] = True
             st.success("Login successful")
+            st.experimental_rerun()  # Muat ulang halaman setelah login
         else:
             st.error("Invalid username or password")
 
@@ -66,3 +74,4 @@ def login():
 def logout():
     st.session_state["authenticated"] = False
     st.success("Logged out successfully")
+    st.experimental_rerun()  # Muat ulang halaman setelah logout
