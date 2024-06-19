@@ -1,0 +1,7 @@
+# requirements.txt
+streamlit
+gdown
+keras
+tensorflow
+numpy
+pandas
