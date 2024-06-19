@@ -2,20 +2,15 @@ import streamlit as st
 import numpy as np
 from PIL import Image
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.models import load_model
 
 def preprocess_image(img, target_size):
     img = img.resize(target_size)
     array = image.img_to_array(img)
     array = np.expand_dims(array, axis=0)
-    array = array / 255.0  # Normalisasi
     return array
 
 def is_valid_image(img):
     return img.mode == 'RGB'
-
-def load_malaria_model(model_path):
-    return load_model(model_path)
 
 def show_upload_image(model):
     st.markdown("<h1 style='text-align: center; color: white;'>Aplikasi Deteksi Malaria</h1>", unsafe_allow_html=True)
@@ -41,9 +36,9 @@ def show_upload_image(model):
                     malaria_probability = prediction[0][0] * 100
                     result = 'Malaria' if malaria_probability > 50 else 'Bukan Malaria'
                 
-                st.image(img, caption='Unggah Gambar', use_column_width=True)
+                st.image(img, caption='Unggah Gambar', use_column_width=True, channels="RGB")
                 st.markdown(f"<h3 style='text-align: center; color: white;'>Prediksi: {result}</h3>", unsafe_allow_html=True)
-                st.markdown(f"<p style='text-align: center; color: grey;'>Kemungkinan Malaria: {malaria_probability:.2f}%</p>", unsafe_allow_html=True)
+                st.markdown(f"<p style='text-align: center; color: grey;'>Kemungkinan: {malaria_probability:.2f}%</p>", unsafe_allow_html=True)
                 
                 st.progress(malaria_probability / 100)
                 
@@ -56,7 +51,6 @@ def show_upload_image(model):
                     "Probability": f"{malaria_probability:.2f}%"
                 })
 
-# Load the model and show upload image interface
-model_path = 'Nadam_TTS_Epoch50.h5'  # Path to your model file
-model = load_malaria_model(model_path)
-show_upload_image(model)
+if __name__ == "__main__":
+    model = load_model()  # Load your model here
+    show_upload_image(model)
