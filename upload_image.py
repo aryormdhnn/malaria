@@ -7,6 +7,7 @@ def preprocess_image(img, target_size):
     img = img.resize(target_size)
     array = image.img_to_array(img)
     array = np.expand_dims(array, axis=0)
+    array = array / 255.0  # Normalisasi
     return array
 
 def is_valid_image(img):
@@ -36,7 +37,7 @@ def show_upload_image(model):
                     malaria_probability = prediction[0][0] * 100
                     result = 'Malaria' if malaria_probability > 50 else 'Bukan Malaria'
                 
-                st.image(img, caption='Unggah Gambar', use_column_width=True, channels="RGB")
+                st.image(img, caption='Unggah Gambar', use_column_width=True)
                 st.markdown(f"<h3 style='text-align: center; color: white;'>Prediksi: {result}</h3>", unsafe_allow_html=True)
                 st.markdown(f"<p style='text-align: center; color: grey;'>Kemungkinan Malaria: {malaria_probability:.2f}%</p>", unsafe_allow_html=True)
                 
@@ -51,6 +52,14 @@ def show_upload_image(model):
                     "Probability": f"{malaria_probability:.2f}%"
                 })
 
+# Main script
 if __name__ == "__main__":
-    model = load_model()  # Load your model here
+    # Load your model here
+    @st.cache(allow_output_mutation=True)
+    def load_malaria_model(model_path):
+        from tensorflow.keras.models import load_model
+        return load_model(model_path)
+
+    model_path = 'Nadam_TTS_Epoch50.h5'  # Path to your model file
+    model = load_malaria_model(model_path)
     show_upload_image(model)
