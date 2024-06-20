@@ -27,7 +27,7 @@ def login():
         .login-container h2 {
             text-align: center;
             margin-bottom: 2rem;
-            color: #1f77b4;
+            color: #0097ff;
         }
         .login-container input {
             width: 100%;
@@ -43,13 +43,13 @@ def login():
             padding: 1rem;
             border: none;
             border-radius: 5px;
-            background-color: #1f77b4;
+            background-color: #3380CC;
             color: white;
             font-size: 1rem;
             cursor: pointer;
         }
         .login-container button:hover {
-            background-color: #145a86;
+            background-color: #18e73e;
         }
         </style>
        

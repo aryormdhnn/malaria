@@ -6,6 +6,8 @@ def show_about():
         """
         <ol style='color: grey;'>
             <li>Buka aplikasi.</li>
+            <li>Pastikan anda sudah mengcrop gambar malarianya menjadi sebuah eritrosit.</li>
+            <li>Jika belum anda harus memotong gambarnya terlebih dahulu sebelum mengguggah gambarnya</li>
             <li>Pilih menu "Upload Image" untuk mengunggah gambar.</li>
             <li>Unggah gambar sampel darah yang ingin dianalisis.</li>
             <li>Tunggu beberapa saat hingga aplikasi selesai menganalisis gambar.</li>
@@ -14,3 +16,6 @@ def show_about():
         """,
         unsafe_allow_html=True
     )
+    st.image("example.jpg", caption="Contoh gambar yang sudah dipotong", width=200)
+
+show_about()
