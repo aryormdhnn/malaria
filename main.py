@@ -5,6 +5,7 @@ from upload_image import show_upload_image
 from about import show_about
 from results import show_results
 from authentication import login, logout
+import pickle
 
 # Custom CSS
 st.markdown(
@@ -40,6 +41,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+# Load histograms
+def load_histograms(histogram_file):
+    with open(histogram_file, 'rb') as file:
+        histograms = pickle.load(file)
+    return histograms
+
 # Initialize session state for authentication
 if "authenticated" not in st.session_state:
     st.session_state["authenticated"] = False
@@ -64,12 +71,14 @@ else:
         st.error(error)
     else:
         model = load_malaria_model(model_path)
+        infected_histograms = load_histograms('infected_histograms.pkl')
+        uninfected_histograms = load_histograms('uninfected_histograms.pkl')
 
         # Display sections based on menu selection
         if menu == "Home":
             show_home()
         elif menu == "Unggah Gambar":
-            show_upload_image(model)
+            show_upload_image(model, infected_histograms, uninfected_histograms)
         elif menu == "Hasil Pemeriksaan":
             show_results()
         elif menu == "Tutorial Penggunaan Aplikasi":
